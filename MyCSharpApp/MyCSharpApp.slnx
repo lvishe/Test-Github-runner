@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="../MyCSharpApp.Tests/MyCSharpApp.Tests.csproj" />
-  <Project Path="MyCSharpApp.csproj" />
-</Solution>

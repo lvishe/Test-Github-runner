@@ -1,0 +1,45 @@
+name: .NET Build, Test, and Publish
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Set up .NET SDK
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      # 3. Restore NuGet dependencies
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      # 4. Build the solution in Release mode
+      - name: Build Solution
+        run: dotnet build --no-restore --configuration Release
+
+      # 5. Run unit tests
+      - name: Run Unit Tests
+        run: dotnet test --no-build --configuration Release --verbosity normal
+
+      # 6. Publish the application binaries (adjust path to your main .csproj file)
+      - name: Publish Application
+        run: dotnet publish src/MyCSharpApp/MyCSharpApp.csproj --configuration Release --output ./publish --no-build
+
+      # 7. Upload the compiled binaries as an artifact so you can download them from GitHub
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: csharp-release-binaries
+          path: ./publish/

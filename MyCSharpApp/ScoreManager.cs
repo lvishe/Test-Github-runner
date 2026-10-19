@@ -1,6 +1,6 @@
 ﻿namespace MyCSharpApp
 {
-    public class ScoreManager
+    sealed public class ScoreManager
     {
         public int Score { get; private set; } = 0;
 
